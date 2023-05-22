@@ -83,8 +83,8 @@ function test_menu {
 		case $choice in
 			1 ) 
 				echo "* Check The power button"
-				echo "* Set the device in recovery mode, connect recovery USB and check the device in recovery mode with lsusb (0955:7019)"
-				echo "* Reset the device, connect Debug USB and check the serial connection"
+				echo "* Set the device in recovery mode, connect recovery USB and check the device in recovery mode with lsusb"
+				echo "* Reset the device, connect to the Debug port and check the serial connection"
 				;;
 			2 )
 				echo "Check M.2 SSD and SD card detected"

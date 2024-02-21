@@ -30,26 +30,31 @@ else
 	exit 1
 fi
 
-# Check GtkTerm installed
-REQUIRED_PKG="gtkterm"
-PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $REQUIRED_PKG|grep "install ok installed")
-echo "Checking for $REQUIRED_PKG: $PKG_OK"
-if [ "" = "$PKG_OK" ]; then
-	echo ""
-	echo "$REQUIRED_PKG not found. Setting it up..."
-	sudo apt-get --yes install $REQUIRED_PKG 
-
+function apt_install_pkg {
+	REQUIRED_PKG=$1
 	PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $REQUIRED_PKG|grep "install ok installed")
-	echo ""
 	echo "Checking for $REQUIRED_PKG: $PKG_OK"
-
 	if [ "" = "$PKG_OK" ]; then
 		echo ""
-		echo "$REQUIRED_PKG not installed. Please try again later"
-		exit 1
-	fi
+		echo "$REQUIRED_PKG not found. Setting it up..."
+		sudo apt-get --yes install $REQUIRED_PKG 
 
-fi
+		PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $REQUIRED_PKG|grep "install ok installed")
+		echo ""
+		echo "Checking for $REQUIRED_PKG: $PKG_OK"
+
+		if [ "" = "$PKG_OK" ]; then
+			echo ""
+			echo "$REQUIRED_PKG not installed. Please try again later"
+			exit 1
+		fi
+
+	fi
+}
+
+# Check GtkTerm installed
+apt_install_pkg 'gtkterm'
+
 
 
 function test_menu {
